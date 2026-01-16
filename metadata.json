@@ -1,0 +1,6 @@
+{
+  "name": "Aplicativo Contable-Tributario UFV Bolivia",
+  "description": "Una aplicación web para facilitar el cálculo del ajuste por inflación para fines tributarios (IUE) en Bolivia, utilizando las cotizaciones de la UFV. Permite actualizar el valor de los activos fijos, calcular su depreciación y generar los asientos contables propuestos para la determinación del IUE.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}

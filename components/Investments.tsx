@@ -410,6 +410,26 @@ const Investments: React.FC<InvestmentsProps> = ({ ufvData }) => {
         };
     }, [calculatedInvestments]);
 
+    const groupedInvestments = useMemo(() => {
+        return calculatedInvestments.reduce((acc, item) => {
+            if (!acc[item.account]) {
+                acc[item.account] = {
+                    items: [],
+                    totalValue: 0,
+                    totalIncrement: 0,
+                    totalUpdatedValue: 0
+                };
+            }
+            acc[item.account].items.push(item);
+            if (item.isIncluded) {
+                acc[item.account].totalValue += item.baseValue;
+                acc[item.account].totalIncrement += item.increment;
+                acc[item.account].totalUpdatedValue += item.updatedValue;
+            }
+            return acc;
+        }, {} as Record<string, { items: CalculatedInvestmentItem[], totalValue: number, totalIncrement: number, totalUpdatedValue: number }>);
+    }, [calculatedInvestments]);
+
     const flatHistory = useMemo(() => {
         const allHistory = investmentItems.flatMap(item =>
             item.history.map(h => ({
@@ -464,6 +484,8 @@ const Investments: React.FC<InvestmentsProps> = ({ ufvData }) => {
     const startUfvValue = findUfv(startDate, ufvData);
     const endUfvValue = findUfv(endDate, ufvData);
     const isUfvMissing = !startUfvValue || !endUfvValue;
+    const formattedStartDate = formatDate(startDate);
+    const formattedEndDate = formatDate(endDate);
 
     const handleGeneratePdf = () => {
         if (!companyName.trim()) { alert("Por favor, ingrese el nombre de la empresa."); return; }
@@ -471,8 +493,7 @@ const Investments: React.FC<InvestmentsProps> = ({ ufvData }) => {
         if (summaryTotals.processedItemsCount === 0) { alert("No hay items seleccionados para generar el reporte."); return; }
 
         const doc = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'letter' });
-        const formattedStartDate = formatDate(startDate);
-        const formattedEndDate = formatDate(endDate);
+
         const pageWidth = doc.internal.pageSize.width;
         const pageHeight = doc.internal.pageSize.height;
         const margin = 40;
@@ -976,20 +997,26 @@ const Investments: React.FC<InvestmentsProps> = ({ ufvData }) => {
                         <div className="lg:col-span-2 grid grid-cols-2 gap-4">
                             <div>
                                 <label className="block mb-1.5 text-xs font-semibold text-slate-400 uppercase tracking-wider">Inicio UFV</label>
-                                <div className="relative">
-                                    <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="w-full bg-slate-800 border border-slate-700 text-slate-200 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition-all" />
-                                    <div className="absolute right-0 top-0 bottom-0 px-3 flex items-center bg-slate-700/50 rounded-r-lg border-l border-slate-700">
-                                        <span className="text-xs font-mono font-bold text-emerald-400">{startUfvValue?.toFixed(5) || '-'}</span>
+                                <div>
+                                    <div className="flex justify-between items-center mb-1.5">
+                                        <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Inicio UFV</label>
+                                        <span className="text-xs font-mono font-bold text-emerald-400 bg-emerald-900/30 px-2 py-0.5 rounded border border-emerald-800">
+                                            {startUfvValue?.toFixed(5) || '-'}
+                                        </span>
                                     </div>
+                                    <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="w-full bg-slate-800 border border-slate-700 text-slate-200 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition-all" />
                                 </div>
                             </div>
                             <div>
                                 <label className="block mb-1.5 text-xs font-semibold text-slate-400 uppercase tracking-wider">Fin UFV</label>
-                                <div className="relative">
-                                    <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} className="w-full bg-slate-800 border border-slate-700 text-slate-200 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition-all" />
-                                    <div className="absolute right-0 top-0 bottom-0 px-3 flex items-center bg-slate-700/50 rounded-r-lg border-l border-slate-700">
-                                        <span className="text-xs font-mono font-bold text-emerald-400">{endUfvValue?.toFixed(5) || '-'}</span>
+                                <div>
+                                    <div className="flex justify-between items-center mb-1.5">
+                                        <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Fin UFV</label>
+                                        <span className="text-xs font-mono font-bold text-emerald-400 bg-emerald-900/30 px-2 py-0.5 rounded border border-emerald-800">
+                                            {endUfvValue?.toFixed(5) || '-'}
+                                        </span>
                                     </div>
+                                    <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} className="w-full bg-slate-800 border border-slate-700 text-slate-200 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition-all" />
                                 </div>
                             </div>
                         </div>

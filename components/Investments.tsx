@@ -996,28 +996,22 @@ const Investments: React.FC<InvestmentsProps> = ({ ufvData }) => {
 
                         <div className="lg:col-span-2 grid grid-cols-2 gap-4">
                             <div>
-                                <label className="block mb-1.5 text-xs font-semibold text-slate-400 uppercase tracking-wider">Inicio UFV</label>
-                                <div>
-                                    <div className="flex justify-between items-center mb-1.5">
-                                        <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Inicio UFV</label>
-                                        <span className="text-xs font-mono font-bold text-emerald-400 bg-emerald-900/30 px-2 py-0.5 rounded border border-emerald-800">
-                                            {startUfvValue?.toFixed(5) || '-'}
-                                        </span>
-                                    </div>
-                                    <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="w-full bg-slate-800 border border-slate-700 text-slate-200 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition-all" />
+                                <div className="flex justify-between items-center mb-1.5">
+                                    <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Inicio UFV</label>
+                                    <span className="text-xs font-mono font-bold text-emerald-400 bg-emerald-900/30 px-2 py-0.5 rounded border border-emerald-800">
+                                        {startUfvValue?.toFixed(5) || '-'}
+                                    </span>
                                 </div>
+                                <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="w-full bg-slate-800 border border-slate-700 text-slate-200 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition-all" />
                             </div>
                             <div>
-                                <label className="block mb-1.5 text-xs font-semibold text-slate-400 uppercase tracking-wider">Fin UFV</label>
-                                <div>
-                                    <div className="flex justify-between items-center mb-1.5">
-                                        <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Fin UFV</label>
-                                        <span className="text-xs font-mono font-bold text-emerald-400 bg-emerald-900/30 px-2 py-0.5 rounded border border-emerald-800">
-                                            {endUfvValue?.toFixed(5) || '-'}
-                                        </span>
-                                    </div>
-                                    <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} className="w-full bg-slate-800 border border-slate-700 text-slate-200 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition-all" />
+                                <div className="flex justify-between items-center mb-1.5">
+                                    <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Fin UFV</label>
+                                    <span className="text-xs font-mono font-bold text-emerald-400 bg-emerald-900/30 px-2 py-0.5 rounded border border-emerald-800">
+                                        {endUfvValue?.toFixed(5) || '-'}
+                                    </span>
                                 </div>
+                                <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} className="w-full bg-slate-800 border border-slate-700 text-slate-200 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition-all" />
                             </div>
                         </div>
 
